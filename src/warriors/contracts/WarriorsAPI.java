@@ -11,13 +11,13 @@ public interface WarriorsAPI {
 	 * Called by the client to retrieve the list of available heroes.
 	 * @return the list of available heroes
 	 */
-	List<Hero> getHeroes();
+	List<? extends Hero> getHeroes();
 	
 	/**
 	 * Called by the client to retrieve the list of available maps.
 	 * @return the list of available maps
 	 */
-	List<Map> getMaps();
+	List<? extends Map> getMaps();
 	
 	/**
 	 * Called by the client to create a new game.
