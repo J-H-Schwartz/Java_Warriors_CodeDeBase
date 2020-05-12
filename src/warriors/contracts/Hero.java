@@ -24,4 +24,5 @@ public interface Hero {
 	 * @return the attack level of the hero
 	 */
 	int getAttackLevel();
+
 }
