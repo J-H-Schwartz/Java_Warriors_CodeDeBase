@@ -5,7 +5,7 @@ package warriors.engine.equipements;
  * 
  */
 public class Potion extends LeftHandEquipement {
-	
+
 	public Potion() {
 		this("Potion mineure", 1);
 	}

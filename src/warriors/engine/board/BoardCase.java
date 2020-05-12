@@ -1,16 +1,22 @@
 package warriors.engine.board;
 
+import warriors.engine.heroes.HeroCharacter;
 
 public class BoardCase {
-	
+
 	protected int caseID;
 	protected int caseStatus;
 	protected String contains;
-	
+
 	public BoardCase(int id) {
 		this.caseID = id;
 		this.caseStatus = 0;
 		this.contains = "Empty";
+	}
+
+	public String manageCaseEvent(HeroCharacter hero, String tmp) {
+		tmp = tmp + "\nCette case est vide";
+		return tmp;
 	}
 
 	/**

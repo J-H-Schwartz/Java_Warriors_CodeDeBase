@@ -9,10 +9,11 @@ import warriors.engine.equipements.Potion;
 import warriors.engine.equipements.PotionLarge;
 import warriors.engine.equipements.PotionMedium;
 import warriors.engine.equipements.Sword;
+import warriors.engine.heroes.HeroCharacter;
 
 public class BoardCaseUpgrade extends BoardCase {
 	private Equipements loot;
-	
+
 	public BoardCaseUpgrade(int id, int type) {
 		super(id);
 		this.caseStatus = 2;
@@ -45,5 +46,11 @@ public class BoardCaseUpgrade extends BoardCase {
 
 	public Equipements getLoot() {
 		return loot;
+	}
+
+	@Override
+	public String manageCaseEvent(HeroCharacter hero, String tmp) {
+		tmp = hero.manageLoot(this.getLoot(), tmp);
+		return tmp;
 	}
 }

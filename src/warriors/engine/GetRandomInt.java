@@ -3,7 +3,9 @@ package warriors.engine;
 import java.util.Random;
 
 public class GetRandomInt {
-	private GetRandomInt() {}
+	private GetRandomInt() {
+	}
+
 	public static int getRandomInt(int max) {
 
 		Random rand = new Random();

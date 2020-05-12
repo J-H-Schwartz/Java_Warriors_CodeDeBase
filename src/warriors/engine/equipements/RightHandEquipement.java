@@ -6,11 +6,9 @@ package warriors.engine.equipements;
  */
 public abstract class RightHandEquipement extends Equipements {
 
-	
 	public RightHandEquipement(String nameArg, int effectArg) {
 		name = nameArg;
 		effect = effectArg;
 	}
-
 
 }

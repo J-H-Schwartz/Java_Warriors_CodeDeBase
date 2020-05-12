@@ -1,5 +1,6 @@
 package warriors.engine.heroes;
 
+import warriors.engine.equipements.Equipements;
 import warriors.engine.equipements.LeftHandEquipement;
 import warriors.engine.equipements.Potion;
 import warriors.engine.equipements.RightHandEquipement;
@@ -9,7 +10,7 @@ import warriors.engine.equipements.Spell;
  * Wizard object Data class.
  * 
  */
-public class Wizard extends Character implements WizardClassInterface {
+public class Wizard extends HeroCharacter implements WizardClassInterface {
 
 	/** Wizard max life constant */
 	public static final int WIZARD_MAX_LIFE = 6;
@@ -45,14 +46,33 @@ public class Wizard extends Character implements WizardClassInterface {
 	}
 
 	@Override
+	public String manageLoot(Equipements loot, String tmp) {
+		if (!(loot instanceof Potion) && loot instanceof Spell) {
+			if (loot.getEffect() > this.getRightHand().getEffect()) {
+				this.setRightHand((RightHandEquipement) loot);
+				tmp = tmp + String.format(
+						"\nVous avez trouvé un nouveau sort ! %s, bonus d'attaque: %d\nVotre puissance d'attaque s'élève à %d",
+						loot.getName(), loot.getEffect(), this.getAttackMove());
+			} else {
+				tmp = tmp + String.format(
+						"\nVous avez trouvé un nouveau sort, mais le votre est meilleur. %s, bonus d'attaque: %d",
+						loot.getName(), loot.getEffect());
+			}
+		} else {
+			this.setLife(this.getLife() + loot.getEffect());
+			tmp = tmp + String.format("\nVous avez trouvé une potion de soin. %s, soin: %d\nVotre vie passe à %d.",
+					loot.getName(), loot.getEffect(), this.getLife());
+		}
+		return tmp;
+	}
+
+	@Override
 	public String toString() {
 		return "Personnage " + this.name + " " + this.raceName + " " + this.className + "\nLife : " + this.life
 				+ " Attack Power : " + this.attackLevel + " Weapon : " + this.rightHand.getName() + " Shield : "
 				+ this.leftHand.getName();
 	}
 
-	
-	
 	/**
 	 * @return the spell
 	 */

@@ -5,11 +5,10 @@ package warriors.engine.equipements;
  *
  */
 public abstract class LeftHandEquipement extends Equipements {
-	
 
 	public LeftHandEquipement(String nameArg, int effectArg) {
 		name = nameArg;
 		effect = effectArg;
 	}
-	
+
 }

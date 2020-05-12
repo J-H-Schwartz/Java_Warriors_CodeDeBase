@@ -4,10 +4,11 @@ import warriors.engine.ennemies.Ennemi;
 import warriors.engine.ennemies.EnnemiDragon;
 import warriors.engine.ennemies.EnnemiGoblin;
 import warriors.engine.ennemies.EnnemiSorcerer;
+import warriors.engine.heroes.HeroCharacter;
 
 public class BoardCaseEnnemy extends BoardCase {
 	private Ennemi ennemi;
-	
+
 	public BoardCaseEnnemy(int id, int type) {
 		super(id);
 		this.caseStatus = 1;
@@ -21,6 +22,19 @@ public class BoardCaseEnnemy extends BoardCase {
 			this.contains = "Ennemi-Dragon-3";
 			this.ennemi = new EnnemiDragon();
 		}
+	}
+
+	@Override
+	public String manageCaseEvent(HeroCharacter hero, String tmp) {
+		tmp = hero.attack(tmp, ennemi);
+		if (ennemi.getLife() <= 0) {
+			tmp = tmp + String.format("\nVous avez tué le %s ennemi.", ennemi.getName());
+		} else {
+			tmp = ennemi.attack(tmp, hero);
+			tmp = tmp + String.format("\nLe %s ennemi s'enfuit. Il vous reste %d points de vie.", ennemi.getName(),
+					hero.getLife());
+		}
+		return tmp;
 	}
 
 	/**

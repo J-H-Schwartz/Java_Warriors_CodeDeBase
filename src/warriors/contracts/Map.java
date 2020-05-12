@@ -9,11 +9,10 @@ public interface Map {
 	 * @return The name of the map
 	 */
 	String getName();
-	
+
 	/**
 	 * @return the number of case
 	 */
 	int getNumberOfCase();
-
 
 }

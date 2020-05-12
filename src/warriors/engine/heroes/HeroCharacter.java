@@ -1,6 +1,8 @@
 package warriors.engine.heroes;
 
 import warriors.contracts.Hero;
+import warriors.engine.ennemies.Ennemi;
+import warriors.engine.equipements.Equipements;
 import warriors.engine.equipements.LeftHandEquipement;
 import warriors.engine.equipements.RightHandEquipement;
 
@@ -8,7 +10,7 @@ import warriors.engine.equipements.RightHandEquipement;
  * Character abstract SuperClass
  *
  */
-public abstract class Character implements Hero, CharacterClassInterface {
+public abstract class HeroCharacter implements Hero, CharacterClassInterface {
 
 	/** Character class name */
 	protected String className;
@@ -36,7 +38,7 @@ public abstract class Character implements Hero, CharacterClassInterface {
 
 	protected int boardPosition;
 
-	public Character() {
+	public HeroCharacter() {
 		boardPosition = -1;
 	}
 
@@ -155,4 +157,14 @@ public abstract class Character implements Hero, CharacterClassInterface {
 	public void setBoardPosition(int boardPosition) {
 		this.boardPosition = boardPosition;
 	}
+	
+	public String attack(String tmp, Ennemi ennemi) {
+		ennemi.setLife(ennemi.getLife() - this.getAttackMove());
+		tmp = tmp + String.format(
+				"\nVous attaquez le %s ennemi et lui infligez %d dégats.\nSes points de vie sont maintenant à %d",
+				ennemi.getName(), this.getAttackMove(), ennemi.getLife());
+		return tmp;
+	}
+	
+	public abstract String manageLoot(Equipements loot, String tmp);
 }
