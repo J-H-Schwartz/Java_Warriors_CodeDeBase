@@ -19,9 +19,9 @@ public class Board implements Map {
 	private static final int BONUS_MEDIUMPOTION_CASE = 6;
 	private static final int BONUS_LARGEPOTION_CASE = 7;
 
-	private static final int ENNEMI_GOBELIN_NUMBER = 0;
+	private static final int ENNEMI_GOBELIN_NUMBER = 12;
 	private static final int ENNEMI_SORCERER_NUMBER = 10;
-	private static final int ENNEMI_DRAGON_NUMBER = 10;
+	private static final int ENNEMI_DRAGON_NUMBER = 8;
 	private static final int BONUS_BOW_NUMBER = 5;
 	private static final int BONUS_HAMMER_NUMBER = 3;
 	private static final int BONUS_SWORD_NUMBER = 2;
@@ -92,7 +92,7 @@ public class Board implements Map {
 			map.add(new BoardCaseUpgrade(index, BONUS_LARGEPOTION_CASE));
 			index++;
 		}
-		for (int i = 0; i < 14; i++) {
+		for (int i = 0; i < 8; i++) {
 			map.add(new BoardCase(index));
 			index++;
 		}

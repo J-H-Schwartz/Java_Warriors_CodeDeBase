@@ -1,5 +1,8 @@
 package warriors.engine;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +26,10 @@ public class Warriors implements WarriorsAPI {
 	private ArrayList<Game> games;
 
 	private int debugDicesIndex;
+	private int debugStatus;
+	private int[] debugFileDices;
 
-	public Warriors() {
+	public Warriors(String debugUrl) {
 		warriors = new ArrayList<Hero>();
 		maps = new ArrayList<Map>();
 		games = new ArrayList<Game>();
@@ -35,7 +40,29 @@ public class Warriors implements WarriorsAPI {
 		Board map = new Board("default");
 		maps.add(map);
 		debugDicesIndex = 0;
-
+		if (!debugUrl.equals(null) && !debugUrl.equals("")) {
+			BufferedReader br;
+			String line = "";
+			String splitBy = ",";
+			String[] tmp;
+			try {		
+				br = new BufferedReader(new FileReader(debugUrl));
+				line = br.readLine();
+				
+				tmp = line.split(splitBy);
+				debugFileDices = new int[tmp.length];
+				for (int i = 0; i < tmp.length; i++) {
+					this.debugFileDices[i] = Integer.parseInt(tmp[i]);
+				}
+				debugStatus = 1;
+				br.close();
+			} catch (IOException e) {
+				System.out.println("Erreur de chargement du fichier, lancement d'une partie normale.");
+				debugStatus = 0;
+			}
+		} else {
+			debugStatus = 0;
+		}
 	}
 
 	public int gameSearch(String gameId) {
@@ -74,8 +101,8 @@ public class Warriors implements WarriorsAPI {
 		Game game = games.get(gameIndex);
 		String tmp = "";
 		int dice = 0;
-		if (game.getDebugStatus() == 1) {
-			dice = game.getDebugDicesFile()[debugDicesIndex];
+		if (this.debugStatus == 1) {
+			dice = this.debugFileDices[debugDicesIndex];
 			tmp = "Dé de " + dice + " prédéfini (mode Debug).\n";
 		} else {
 			dice = GetRandomInt.getRandomInt(DICE_6) + 1;
@@ -109,5 +136,4 @@ public class Warriors implements WarriorsAPI {
 		tmp = actualCase.manageCaseEvent(game.getCharacter(), tmp);
 		return tmp;
 	}
-
 }
