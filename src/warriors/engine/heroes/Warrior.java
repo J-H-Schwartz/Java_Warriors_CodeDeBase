@@ -4,6 +4,7 @@ import warriors.engine.equipements.Equipements;
 import warriors.engine.equipements.LeftHandEquipement;
 import warriors.engine.equipements.Potion;
 import warriors.engine.equipements.RightHandEquipement;
+import warriors.engine.equipements.Spell;
 import warriors.engine.equipements.Weapon;
 
 /**
@@ -24,20 +25,7 @@ public class Warrior extends HeroCharacter implements WarriorClassInterface {
 	/** Warrior max Attack power constant */
 	public static final int WARRIOR_MIN_ATTACK_POWER = 5;
 
-	public Warrior() {
-		this("Undefined", WARRIOR_MIN_LIFE, WARRIOR_MIN_ATTACK_POWER);
-	}
-
-	public Warrior(String nameArg) {
-		this(nameArg, WARRIOR_MIN_LIFE, WARRIOR_MIN_ATTACK_POWER);
-	}
-
 	public Warrior(String nameArg, int lifeArg, int attackPowerArg) {
-		super();
-		if (nameArg.isEmpty() || WARRIOR_MIN_LIFE > lifeArg || WARRIOR_MAX_LIFE < lifeArg
-				|| WARRIOR_MIN_ATTACK_POWER > attackPowerArg || WARRIOR_MAX_ATTACK_POWER < attackPowerArg) {
-			throw new IllegalArgumentException("Invalid Parameters.");
-		}
 		this.className = "Warrior";
 		this.name = nameArg;
 		this.life = lifeArg;
@@ -48,7 +36,7 @@ public class Warrior extends HeroCharacter implements WarriorClassInterface {
 
 	@Override
 	public String manageLoot(Equipements loot, String tmp) {
-		if (!(loot instanceof Potion) && loot instanceof Weapon) {
+		if (loot instanceof Weapon) {
 			if (loot.getEffect() > this.getRightHand().getEffect()) {
 				this.setRightHand((RightHandEquipement) loot);
 				tmp = tmp + String.format(
@@ -59,7 +47,11 @@ public class Warrior extends HeroCharacter implements WarriorClassInterface {
 						"\nVous avez trouvé une nouvelle arme, mais la votre est meilleure. %s, bonus d'attaque: %d",
 						loot.getName(), loot.getEffect());
 			}
-		} else {
+		} else if (loot instanceof Spell) {
+			tmp = tmp + String.format(
+					"\nVous avez trouvé un sort mais ne pouvez vous en équiper. %s, bonus d'attaque: %d",
+					loot.getName(), loot.getEffect());
+		} else if (loot instanceof Potion){
 			this.setLife(this.getLife() + loot.getEffect());
 			tmp = tmp + String.format("\nVous avez trouvé une potion de soin. %s, soin: %d\nVotre vie passe à %d.",
 					loot.getName(), loot.getEffect(), this.getLife());
@@ -100,5 +92,27 @@ public class Warrior extends HeroCharacter implements WarriorClassInterface {
 	 */
 	public void setPotion(Potion potion) {
 		this.leftHand = potion;
+	}
+
+	@Override
+	public void setLife(int newLife) {
+		if (newLife > WARRIOR_MAX_LIFE) {
+			this.life = WARRIOR_MAX_LIFE;
+		} else if (newLife < 0) {
+			this.life = 0;
+		} else {
+			this.life = newLife;
+		}
+	}
+
+	@Override
+	public void setAttackLevel(int attackPower) {
+		if (attackPower > WARRIOR_MAX_ATTACK_POWER) {
+			this.attackLevel = WARRIOR_MAX_ATTACK_POWER;
+		} else if (attackPower < WARRIOR_MIN_ATTACK_POWER) {
+			this.attackLevel = WARRIOR_MIN_ATTACK_POWER;
+		} else {
+			this.attackLevel = attackPower;
+		}
 	}
 }

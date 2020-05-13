@@ -19,6 +19,8 @@ public class Game implements GameState {
 	private String lastLog;
 	private int currentCase;
 	private int heroDefaultLife;
+	private int debugStatus;
+	private int[] debugDicesFile;
 
 	public Game(String playerName, Hero hero, Map map, String gameId) {
 		this.gameId = gameId;
@@ -29,12 +31,14 @@ public class Game implements GameState {
 		this.currentCase = START_CASE;
 		this.gameStatus = GameStatus.IN_PROGRESS;
 		this.lastLog = "Lancement d'une nouvelle partie.";
+		this.debugStatus = 0;
 	}
 
 	public String manageGameWin(String tmp) {
 		this.setGameStatus(GameStatus.FINISHED);
 		this.setCurrentCase(START_CASE);
 		this.getCharacter().setLife(this.heroDefaultLife);
+		this.setDebugStatus(0);
 		tmp = tmp + "Vous êtes sorti du donjon et avez gagné la partie !.\n ";
 		return tmp;
 	}
@@ -43,10 +47,39 @@ public class Game implements GameState {
 		this.setGameStatus(GameStatus.GAME_OVER);
 		this.setCurrentCase(START_CASE);
 		this.getCharacter().setLife(this.heroDefaultLife);
+		this.setDebugStatus(0);
 		tmp = tmp + String.format("\nVous n'avez plus de vie. Partie terminée.");
 		return tmp;
 	}
 
+	/**
+	 * @return the debugStatus
+	 */
+	public int getDebugStatus() {
+		return debugStatus;
+	}
+
+	/**
+	 * @param debugStatus the debugStatus to set
+	 */
+	public void setDebugStatus(int debugStatus) {
+		this.debugStatus = debugStatus;
+	}
+
+	/**
+	 * @return the debugDicesFile
+	 */
+	public int[] getDebugDicesFile() {
+		return debugDicesFile;
+	}
+
+	/**
+	 * @param debugDicesFile the debugDicesFile to set
+	 */
+	public void setDebugDicesFile(int[] debugDicesFile) {
+		this.debugDicesFile = debugDicesFile;
+	}
+	
 	/**
 	 * @param currentCase the currentCase to set
 	 */

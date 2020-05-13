@@ -1,5 +1,7 @@
 package warriors.engine.heroes;
 
+import warriors.engine.equipements.Equipements;
+
 public interface CharacterClassInterface {
 
 	void setName(String newName);
@@ -18,5 +20,7 @@ public interface CharacterClassInterface {
 	String getRaceName();
 
 	void setRaceName(String raceName);
+	
+	abstract String manageLoot(Equipements loot, String tmp);
 
 }

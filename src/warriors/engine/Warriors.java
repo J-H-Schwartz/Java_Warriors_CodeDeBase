@@ -22,6 +22,8 @@ public class Warriors implements WarriorsAPI {
 	private ArrayList<Map> maps;
 	private ArrayList<Game> games;
 
+	private int debugDicesIndex;
+
 	public Warriors() {
 		warriors = new ArrayList<Hero>();
 		maps = new ArrayList<Map>();
@@ -32,6 +34,7 @@ public class Warriors implements WarriorsAPI {
 		warriors.add(wizard);
 		Board map = new Board("default");
 		maps.add(map);
+		debugDicesIndex = 0;
 
 	}
 
@@ -47,13 +50,11 @@ public class Warriors implements WarriorsAPI {
 
 	@Override
 	public List<? extends Hero> getHeroes() {
-		// TODO Auto-generated method stub
 		return warriors;
 	}
 
 	@Override
 	public List<? extends Map> getMaps() {
-		// TODO Auto-generated method stub
 		return maps;
 	}
 
@@ -69,19 +70,28 @@ public class Warriors implements WarriorsAPI {
 
 	@Override
 	public GameState nextTurn(String gameID) {
-		int dice = GetRandomInt.getRandomInt(DICE_6) + 1;
 		int gameIndex = gameSearch(gameID);
 		Game game = games.get(gameIndex);
 		String tmp = "";
-		tmp = "Vous lancez le dé et faites un " + dice + "\n";
+		int dice = 0;
+		if (game.getDebugStatus() == 1) {
+			dice = game.getDebugDicesFile()[debugDicesIndex];
+			tmp = "Dé de " + dice + " prédéfini (mode Debug).\n";
+		} else {
+			dice = GetRandomInt.getRandomInt(DICE_6) + 1;
+			tmp = "Vous lancez le dé et faites un " + dice + "\n";
+		}
 		if (game.getCurrentCase() + dice > MAP_END) {
 			tmp = game.manageGameWin(tmp);
+			debugDicesIndex = 0;
 		} else {
 			tmp = getNextCase(dice, game, tmp);
 			tmp = manageCaseEvent(game, tmp);
+			debugDicesIndex += 1;
 		}
 		if (game.getCharacter().getLife() <= 0) {
 			tmp = game.manageGameLoss(tmp);
+			debugDicesIndex = 0;
 		}
 		game.setLastLog(tmp);
 		return game;
@@ -99,4 +109,5 @@ public class Warriors implements WarriorsAPI {
 		tmp = actualCase.manageCaseEvent(game.getCharacter(), tmp);
 		return tmp;
 	}
+
 }

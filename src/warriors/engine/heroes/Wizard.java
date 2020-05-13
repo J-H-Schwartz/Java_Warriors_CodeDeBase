@@ -5,6 +5,7 @@ import warriors.engine.equipements.LeftHandEquipement;
 import warriors.engine.equipements.Potion;
 import warriors.engine.equipements.RightHandEquipement;
 import warriors.engine.equipements.Spell;
+import warriors.engine.equipements.Weapon;
 
 /**
  * Wizard object Data class.
@@ -24,19 +25,7 @@ public class Wizard extends HeroCharacter implements WizardClassInterface {
 	/** Wizard min Attack power constant */
 	public static final int WIZARD_MIN_ATTACK_POWER = 8;
 
-	public Wizard() {
-		this("Undefined", WIZARD_MIN_LIFE, WIZARD_MIN_ATTACK_POWER);
-	}
-
-	public Wizard(String nameArg) {
-		this(nameArg, WIZARD_MIN_LIFE, WIZARD_MIN_ATTACK_POWER);
-	}
-
 	public Wizard(String nameArg, int lifeArg, int attackPowerArg) {
-		if (nameArg.isEmpty() || WIZARD_MIN_LIFE > lifeArg || WIZARD_MAX_LIFE < lifeArg
-				|| WIZARD_MIN_ATTACK_POWER > attackPowerArg || WIZARD_MAX_ATTACK_POWER < attackPowerArg) {
-			throw new IllegalArgumentException("Invalid Parameters.");
-		}
 		this.className = "Wizard";
 		this.name = nameArg;
 		this.life = lifeArg;
@@ -47,7 +36,7 @@ public class Wizard extends HeroCharacter implements WizardClassInterface {
 
 	@Override
 	public String manageLoot(Equipements loot, String tmp) {
-		if (!(loot instanceof Potion) && loot instanceof Spell) {
+		if (loot instanceof Spell) {
 			if (loot.getEffect() > this.getRightHand().getEffect()) {
 				this.setRightHand((RightHandEquipement) loot);
 				tmp = tmp + String.format(
@@ -58,7 +47,11 @@ public class Wizard extends HeroCharacter implements WizardClassInterface {
 						"\nVous avez trouvé un nouveau sort, mais le votre est meilleur. %s, bonus d'attaque: %d",
 						loot.getName(), loot.getEffect());
 			}
-		} else {
+		} else if (loot instanceof Weapon) {
+			tmp = tmp + String.format(
+					"\nVous avez trouvé une arme mais ne pouvez vous en équiper. %s, bonus d'attaque: %d",
+					loot.getName(), loot.getEffect());
+		} else if (loot instanceof Potion) {
 			this.setLife(this.getLife() + loot.getEffect());
 			tmp = tmp + String.format("\nVous avez trouvé une potion de soin. %s, soin: %d\nVotre vie passe à %d.",
 					loot.getName(), loot.getEffect(), this.getLife());
@@ -99,5 +92,27 @@ public class Wizard extends HeroCharacter implements WizardClassInterface {
 	 */
 	public void setPotion(Potion potion) {
 		this.leftHand = potion;
+	}
+
+	@Override
+	public void setLife(int newLife) {
+		if (newLife > WIZARD_MAX_LIFE) {
+			this.life = WIZARD_MAX_LIFE;
+		} else if (newLife < 0) {
+			this.life = 0;
+		} else {
+			this.life = newLife;
+		}
+	}
+
+	@Override
+	public void setAttackLevel(int attackPower) {
+		if (attackPower > WIZARD_MAX_ATTACK_POWER) {
+			this.attackLevel = WIZARD_MAX_ATTACK_POWER;
+		} else if (attackPower < WIZARD_MIN_ATTACK_POWER) {
+			this.attackLevel = WIZARD_MIN_ATTACK_POWER;
+		} else {
+			this.attackLevel = attackPower;
+		}
 	}
 }
