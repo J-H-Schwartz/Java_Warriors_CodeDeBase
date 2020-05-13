@@ -69,8 +69,10 @@ public class ClientConsole {
 		
 		GameState gameState = warriors.createGame(playerName, chosenHeroe, choosenMap);
 		if(menuChoice.equals(MENU_DEBUG)) {
-			try {			
-				br = new BufferedReader(new FileReader("Java_Warriors_DebugFile.csv"));
+			try {		
+				System.out.println("Entrez l'URL de votre fichier debug .csv:");
+				String csvUrl = sc.nextLine();
+				br = new BufferedReader(new FileReader(csvUrl));
 				line = br.readLine();
 				
 				tmp = line.split(splitBy);
