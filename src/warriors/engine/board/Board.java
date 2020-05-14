@@ -39,6 +39,10 @@ public class Board implements Map {
 		return map;
 	}
 
+	protected Board() {
+		
+	}
+	
 	public Board(String name) {
 		this.map = new ArrayList<BoardCase>();
 		this.name = name;

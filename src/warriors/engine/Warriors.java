@@ -3,8 +3,15 @@ package warriors.engine;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+//import com.google.gson.Gson;
+//import com.google.gson.GsonBuilder;
 
 import warriors.contracts.GameState;
 import warriors.contracts.Hero;
@@ -12,6 +19,8 @@ import warriors.contracts.Map;
 import warriors.contracts.WarriorsAPI;
 import warriors.engine.board.Board;
 import warriors.engine.board.BoardCase;
+import warriors.engine.board.JsonBoard;
+import warriors.engine.board.JsonBoardCreator;
 import warriors.engine.heroes.Warrior;
 import warriors.engine.heroes.Wizard;
 import warriors.engine.heroes.HeroCharacter;
@@ -39,16 +48,37 @@ public class Warriors implements WarriorsAPI {
 		warriors.add(wizard);
 		Board map = new Board("default");
 		maps.add(map);
+
+		JsonBoardCreator jsb = new JsonBoardCreator();
+		try {
+			Path dirPath = Paths.get("maps/");
+			try (DirectoryStream<Path> dirPaths = Files.newDirectoryStream(dirPath, "*.{json}")) {																				// .jdb only
+				for (Path file : dirPaths) {
+					JsonBoard newMap = (JsonBoard)jsb.createBoard(file);
+					maps.add(newMap);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+//		try (Writer writer = new FileWriter("map5.json")) {
+//			Gson gson = new GsonBuilder().create();
+//			gson.toJson(map, writer);
+//		} catch (Exception e) {
+//			System.out.println(e);
+//		}
+
 		debugDicesIndex = 0;
 		if (!debugUrl.equals(null) && !debugUrl.equals("")) {
 			BufferedReader br;
 			String line = "";
 			String splitBy = ",";
 			String[] tmp;
-			try {		
+			try {
 				br = new BufferedReader(new FileReader(debugUrl));
 				line = br.readLine();
-				
+
 				tmp = line.split(splitBy);
 				debugFileDices = new int[tmp.length];
 				for (int i = 0; i < tmp.length; i++) {

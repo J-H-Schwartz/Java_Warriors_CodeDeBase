@@ -82,7 +82,6 @@ public class ClientConsole {
 			String choice = sc.nextLine();
 			return choice;
 		}
-
 		return "";
 	}
 }
