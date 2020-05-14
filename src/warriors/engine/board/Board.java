@@ -7,17 +7,17 @@ import warriors.contracts.Map;
 
 public class Board implements Map {
 
-	private static final int ENNEMI_GOBELIN_CASE = 0;
-	private static final int ENNEMI_SORCERER_CASE = 1;
-	private static final int ENNEMI_DRAGON_CASE = 2;
-	private static final int BONUS_BOW_CASE = 0;
-	private static final int BONUS_HAMMER_CASE = 1;
-	private static final int BONUS_SWORD_CASE = 2;
-	private static final int BONUS_LIGHTNING_CASE = 3;
-	private static final int BONUS_FIREBALL_CASE = 4;
-	private static final int BONUS_SMALLPOTION_CASE = 5;
-	private static final int BONUS_MEDIUMPOTION_CASE = 6;
-	private static final int BONUS_LARGEPOTION_CASE = 7;
+	protected static final int ENNEMI_GOBELIN_CASE = 0;
+	protected static final int ENNEMI_SORCERER_CASE = 1;
+	protected static final int ENNEMI_DRAGON_CASE = 2;
+	protected static final int BONUS_BOW_CASE = 0;
+	protected static final int BONUS_HAMMER_CASE = 1;
+	protected static final int BONUS_SWORD_CASE = 2;
+	protected static final int BONUS_LIGHTNING_CASE = 3;
+	protected static final int BONUS_FIREBALL_CASE = 4;
+	protected static final int BONUS_SMALLPOTION_CASE = 5;
+	protected static final int BONUS_MEDIUMPOTION_CASE = 6;
+	protected static final int BONUS_LARGEPOTION_CASE = 7;
 
 	private static final int ENNEMI_GOBELIN_NUMBER = 12;
 	private static final int ENNEMI_SORCERER_NUMBER = 10;
